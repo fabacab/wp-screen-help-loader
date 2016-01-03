@@ -33,7 +33,7 @@ class WP_Screen_Help_Plugin {
 
     /**
      * Registers hook.
-     * 
+     *
      * @return void
      */
     public static function register () {

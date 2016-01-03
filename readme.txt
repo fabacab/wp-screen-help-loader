@@ -68,7 +68,7 @@ An easy way to see what these values are for a given screen is to add the follow
         $screen = get_current_screen();
         print 'The help file should be called: ';
         print "{$screen->action}{$screen->id}.md";
-    }   
+    }
     add_action('admin_notices', 'help_loader_show_current_screen_info');
 
 This will display a line at the top of the admin screen showing what the help file should be named if you want it to appear on the current screen.
