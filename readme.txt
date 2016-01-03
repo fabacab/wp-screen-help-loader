@@ -12,7 +12,7 @@ Easily add custom on-screen help to the admin area of your WordPress website.
 
 == Description ==
 
-Make your site's admin dashboard on-screen more help tabs more helpful by add custom help tabs or additional sidebar content to any screen of the WordPress Admin Dashboard's built-in "Help" menu simply by placing help files in a special folder.
+Make your site's on-screen admin help tabs more helpful by adding custom help tabs or additional sidebar content to any screen of the WordPress Admin Dashboard's built-in "Help" menu simply by placing help files in a special folder.
 
 This plugin looks for files located in your current theme's `admin-help/` folder and, based on their name, adds their content to the WordPress on-screen help menuing system. The files should be written in [markdown](https://daringfireball.net/projects/markdown/).
 
@@ -34,7 +34,7 @@ The rules used by the plugin to determine which file to load on which screen are
 
 To use WP Screen Help Loader in your plugin, all you need to do is:
 
-    function my_plugin_add_cusotom_help () {
+    function my_plugin_add_custom_help () {
         new WP_Screen_Help_Loader(plugin_dir_path(__FILE__) . 'help');
     }
     add_action('admin_head', 'my_plugin_add_custom_help');
@@ -54,21 +54,51 @@ Now put your localized help contents into the `help/YOUR_LANGUAGE` directory in 
 
 Yes. Either hook the `wp_screen_help_loader_help_dir_path` filter or specify a `new WP_Screen_Help_Loader()` object and pass in a new path.
 
-= Why aren't my help files displaying on the right screen? =
+= Why aren't my help files showing up? Why aren't my help tabs displaying on the right screen? =
 
-Make sure your help files are named correctly. Remember, file names reference the `$action` and `$id` members of the [`WP_Screen`](https://developer.wordpress.org/reference/classes/wp_screen/) class and are dereferenced more or less like this:
+Make sure your help files are named correctly and placed in the correct directory. Remember, file names reference the `$action` and `$id` members of the [`WP_Screen`](https://developer.wordpress.org/reference/classes/wp_screen/) class and are dereferenced more or less like this:
 
     glob("{$current_screen->action}{$current_screen->id}*.md");
 
 So, for example, to write a help tab for the "Add New Post" screen, create a file named `addpost.md` in the appropriate locale directory.
 
+An easy way to see what these values are for a given screen is to add the following code to your theme's `functions.php` file:
+
+    function help_loader_show_current_screen_info () {
+        $screen = get_current_screen();
+        print 'The help file should be called: ';
+        print "{$screen->action}{$screen->id}.md";
+    }   
+    add_action('admin_notices', 'help_loader_show_current_screen_info');
+
+This will display a line at the top of the admin screen showing what the help file should be named if you want it to appear on the current screen.
+
+WP Screen Help Loader looks for your files in a language-specific directory inside your current theme's `admin-help/` directory. For example, when your site admin is set to English, the folder for your help files will be `admin-help/en_US/` by default.
+
+= My help tabs are showing up, but are not displaying properly. =
+
+Make sure your help files are written in standard [markdown syntax](https://daringfireball.net/projects/markdown/syntax/).
+
 = Can I change the order in which the tabs appear? =
 
 Yes. Use the optional suffix as part of the file name to control the order in which the tabs appear. Larger numbers will appear lower. For example, given the two help files `profile-20.md` and `profile-50.md`, the latter will appear lower in the tab list.
 
-= My help files are not displaying properly. =
+= How do I set a tab title? =
 
-Make sure your help files are written in standard [markdown syntax](https://daringfireball.net/projects/markdown/syntax/).
+The first line of your help file's content becomes the tab title. So, for example, given a help file called `profile.md` containing this text:
+
+    # This is the help tab title.
+
+    This is the custom help tab content. You can:
+
+    * write lists,
+    * use formatting like *italic* and **bold**,
+    * create [links](https://example.com/)
+    * and much, much more. :)
+
+    Enjoy your new help tab!
+
+The tab title will be "This is the help tab title" and the tab content will start from "This is the custom help tab content."
 
 == Screenshots ==
 
