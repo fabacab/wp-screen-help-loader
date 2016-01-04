@@ -35,7 +35,8 @@ The rules used by the plugin to determine which file to load on which screen are
 To use WP Screen Help Loader in your plugin, all you need to do is:
 
     function my_plugin_add_custom_help () {
-        new WP_Screen_Help_Loader(plugin_dir_path(__FILE__) . 'help');
+        $help = new WP_Screen_Help_Loader(plugin_dir_path(__FILE__) . 'help');
+        $help->apply();
     }
     add_action('admin_head', 'my_plugin_add_custom_help');
 

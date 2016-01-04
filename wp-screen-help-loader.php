@@ -43,12 +43,13 @@ class WP_Screen_Help_Plugin {
     /**
      * Attaches the help files to the screen.
      *
+     * @uses WP_Screen_Help_Loader::apply()
+     *
      * @return void
      */
     public static function apply () {
         $help = new WP_Screen_Help_Loader();
-        $help->applyTabs();
-        $help->applySidebar();
+        $help->apply();
     }
 }
 

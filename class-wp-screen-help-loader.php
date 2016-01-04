@@ -123,6 +123,19 @@ class WP_Screen_Help_Loader {
     }
 
     /**
+     * Applies help tabs and sidebar to the on-screen help.
+     *
+     * @uses WP_Screen_Help_Loader::applyTabs()
+     * @uses WP_Screen_Help_Loader::applySidebar()
+     *
+     * @return void
+     */
+    public function apply () {
+        $this->applyTabs();
+        $this->applySidebar();
+    }
+
+    /**
      * Applies the new sidebar contents based on loaded files.
      *
      * This should be called during WordPress's `load-{$pagenow}` hook.
